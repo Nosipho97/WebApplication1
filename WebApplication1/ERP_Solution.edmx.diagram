@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="e90b04048fba4fb784048e6f4d0e0362" Name="Diagram1">
+        <EntityTypeShape EntityType="ERP_SolutionDBModel.Debtors_Transaction" Width="1.5" PointX="8" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ERP_SolutionDBModel.DebtorsMaster" Width="1.5" PointX="5.75" PointY="2.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ERP_SolutionDBModel.InvoiceDetail" Width="1.5" PointX="3" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ERP_SolutionDBModel.InvoiceHeader" Width="1.5" PointX="8" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ERP_SolutionDBModel.Stock_Transaction" Width="1.5" PointX="3" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ERP_SolutionDBModel.StockMaster" Width="1.5" PointX="0.75" PointY="2.75" IsExpanded="true" />
+        <AssociationConnector Association="ERP_SolutionDBModel.FK_DebtorsMaster" ManuallyRouted="false" />
+        <AssociationConnector Association="ERP_SolutionDBModel.FK_DebtorsMaster1" ManuallyRouted="false" />
+        <AssociationConnector Association="ERP_SolutionDBModel.FK_StockMaster1" ManuallyRouted="false" />
+        <AssociationConnector Association="ERP_SolutionDBModel.FK_StockMaster" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

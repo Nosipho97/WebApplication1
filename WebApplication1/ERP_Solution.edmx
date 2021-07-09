@@ -1,0 +1,424 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ERP_SolutionDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Debtors_Transaction">
+          <Key>
+            <PropertyRef Name="Debtors_Transaction_Id" />
+          </Key>
+          <Property Name="Debtors_Transaction_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AccountCode" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="TransactionDate" Type="date" />
+          <Property Name="TransactionType" Type="varchar" MaxLength="255" />
+          <Property Name="DocumentNo" Type="int" />
+          <Property Name="Gross_Transaction_Value" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Vat_Value" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DebtorsMaster">
+          <Key>
+            <PropertyRef Name="AccountCode" />
+          </Key>
+          <Property Name="AccountCode" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Address1" Type="varchar" MaxLength="255" />
+          <Property Name="Address2" Type="varchar" MaxLength="255" />
+          <Property Name="Balance" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="SaleYearToDate" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="CostYearToDate" Type="decimal" Precision="18" Scale="0" />
+        </EntityType>
+        <EntityType Name="InvoiceDetails">
+          <Key>
+            <PropertyRef Name="InvoiceDetailsId" />
+          </Key>
+          <Property Name="InvoiceNo" Type="int" Nullable="false" />
+          <Property Name="ItemNo" Type="int" />
+          <Property Name="StockCode" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="QtySold" Type="int" />
+          <Property Name="UnitCost" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="UnitSell" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="Disc" Type="int" />
+          <Property Name="Total" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="InvoiceDetailsId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="InvoiceHeader">
+          <Key>
+            <PropertyRef Name="InvoiceNo" />
+          </Key>
+          <Property Name="InvoiceNo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AccountCode" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Date" Type="date" />
+          <Property Name="TotalSellAmountExlVate" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="Vat" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="TotalCost" Type="decimal" Precision="18" Scale="0" />
+        </EntityType>
+        <EntityType Name="Stock_Transaction">
+          <Key>
+            <PropertyRef Name="Stock_Transaction_Id" />
+          </Key>
+          <Property Name="Stock_Transaction_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StockCode" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="StockDate" Type="date" />
+          <Property Name="TransactionType" Type="varchar" MaxLength="255" />
+          <Property Name="DocumentNo" Type="int" />
+          <Property Name="Qty" Type="int" />
+          <Property Name="UnitCost" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="UnitSell" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StockMaster">
+          <Key>
+            <PropertyRef Name="StockCode" />
+          </Key>
+          <Property Name="StockCode" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="StockDescription" Type="varchar" MaxLength="255" />
+          <Property Name="Cost" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="Selling_Price" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="TotalPurchase_excl_Vat" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="TotalSales_excl_Vat" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="QTY_Purchased" Type="int" />
+          <Property Name="QTY_Sold" Type="int" />
+          <Property Name="StockOnHand" Type="int" />
+        </EntityType>
+        <Association Name="FK_DebtorsMaster">
+          <End Role="DebtorsMaster" Type="Self.DebtorsMaster" Multiplicity="1" />
+          <End Role="Debtors_Transaction" Type="Self.Debtors_Transaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DebtorsMaster">
+              <PropertyRef Name="AccountCode" />
+            </Principal>
+            <Dependent Role="Debtors_Transaction">
+              <PropertyRef Name="AccountCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DebtorsMaster1">
+          <End Role="DebtorsMaster" Type="Self.DebtorsMaster" Multiplicity="1" />
+          <End Role="InvoiceHeader" Type="Self.InvoiceHeader" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DebtorsMaster">
+              <PropertyRef Name="AccountCode" />
+            </Principal>
+            <Dependent Role="InvoiceHeader">
+              <PropertyRef Name="AccountCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StockMaster">
+          <End Role="StockMaster" Type="Self.StockMaster" Multiplicity="1" />
+          <End Role="Stock_Transaction" Type="Self.Stock_Transaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StockMaster">
+              <PropertyRef Name="StockCode" />
+            </Principal>
+            <Dependent Role="Stock_Transaction">
+              <PropertyRef Name="StockCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StockMaster1">
+          <End Role="StockMaster" Type="Self.StockMaster" Multiplicity="1" />
+          <End Role="InvoiceDetails" Type="Self.InvoiceDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StockMaster">
+              <PropertyRef Name="StockCode" />
+            </Principal>
+            <Dependent Role="InvoiceDetails">
+              <PropertyRef Name="StockCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ERP_SolutionDBModelStoreContainer">
+          <EntitySet Name="Debtors_Transaction" EntityType="Self.Debtors_Transaction" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DebtorsMaster" EntityType="Self.DebtorsMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="InvoiceDetails" EntityType="Self.InvoiceDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="InvoiceHeader" EntityType="Self.InvoiceHeader" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Stock_Transaction" EntityType="Self.Stock_Transaction" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StockMaster" EntityType="Self.StockMaster" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_DebtorsMaster" Association="Self.FK_DebtorsMaster">
+            <End Role="DebtorsMaster" EntitySet="DebtorsMaster" />
+            <End Role="Debtors_Transaction" EntitySet="Debtors_Transaction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DebtorsMaster1" Association="Self.FK_DebtorsMaster1">
+            <End Role="DebtorsMaster" EntitySet="DebtorsMaster" />
+            <End Role="InvoiceHeader" EntitySet="InvoiceHeader" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StockMaster" Association="Self.FK_StockMaster">
+            <End Role="StockMaster" EntitySet="StockMaster" />
+            <End Role="Stock_Transaction" EntitySet="Stock_Transaction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StockMaster1" Association="Self.FK_StockMaster1">
+            <End Role="StockMaster" EntitySet="StockMaster" />
+            <End Role="InvoiceDetails" EntitySet="InvoiceDetails" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ERP_SolutionDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Debtors_Transaction">
+          <Key>
+            <PropertyRef Name="Debtors_Transaction_Id" />
+          </Key>
+          <Property Name="Debtors_Transaction_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AccountCode" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="TransactionDate" Type="DateTime" Precision="0" />
+          <Property Name="TransactionType" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="DocumentNo" Type="Int32" />
+          <Property Name="Gross_Transaction_Value" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Vat_Value" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <NavigationProperty Name="DebtorsMaster" Relationship="Self.FK_DebtorsMaster" FromRole="Debtors_Transaction" ToRole="DebtorsMaster" />
+        </EntityType>
+        <EntityType Name="DebtorsMaster">
+          <Key>
+            <PropertyRef Name="AccountCode" />
+          </Key>
+          <Property Name="AccountCode" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Address1" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Address2" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Balance" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="SaleYearToDate" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="CostYearToDate" Type="Decimal" Precision="18" Scale="0" />
+          <NavigationProperty Name="Debtors_Transaction" Relationship="Self.FK_DebtorsMaster" FromRole="DebtorsMaster" ToRole="Debtors_Transaction" />
+          <NavigationProperty Name="InvoiceHeaders" Relationship="Self.FK_DebtorsMaster1" FromRole="DebtorsMaster" ToRole="InvoiceHeader" />
+        </EntityType>
+        <EntityType Name="InvoiceDetail">
+          <Key>
+            <PropertyRef Name="InvoiceDetailsId" />
+          </Key>
+          <Property Name="InvoiceNo" Type="Int32" Nullable="false" />
+          <Property Name="ItemNo" Type="Int32" />
+          <Property Name="StockCode" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="QtySold" Type="Int32" />
+          <Property Name="UnitCost" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="UnitSell" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="Disc" Type="Int32" />
+          <Property Name="Total" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="InvoiceDetailsId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="StockMaster" Relationship="Self.FK_StockMaster1" FromRole="InvoiceDetails" ToRole="StockMaster" />
+        </EntityType>
+        <EntityType Name="InvoiceHeader">
+          <Key>
+            <PropertyRef Name="InvoiceNo" />
+          </Key>
+          <Property Name="InvoiceNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AccountCode" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Precision="0" />
+          <Property Name="TotalSellAmountExlVate" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="Vat" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="TotalCost" Type="Decimal" Precision="18" Scale="0" />
+          <NavigationProperty Name="DebtorsMaster" Relationship="Self.FK_DebtorsMaster1" FromRole="InvoiceHeader" ToRole="DebtorsMaster" />
+        </EntityType>
+        <EntityType Name="Stock_Transaction">
+          <Key>
+            <PropertyRef Name="Stock_Transaction_Id" />
+          </Key>
+          <Property Name="Stock_Transaction_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StockCode" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="StockDate" Type="DateTime" Precision="0" />
+          <Property Name="TransactionType" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="DocumentNo" Type="Int32" />
+          <Property Name="Qty" Type="Int32" />
+          <Property Name="UnitCost" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="UnitSell" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <NavigationProperty Name="StockMaster" Relationship="Self.FK_StockMaster" FromRole="Stock_Transaction" ToRole="StockMaster" />
+        </EntityType>
+        <EntityType Name="StockMaster">
+          <Key>
+            <PropertyRef Name="StockCode" />
+          </Key>
+          <Property Name="StockCode" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="StockDescription" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Cost" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="Selling_Price" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="TotalPurchase_excl_Vat" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="TotalSales_excl_Vat" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="QTY_Purchased" Type="Int32" />
+          <Property Name="QTY_Sold" Type="Int32" />
+          <Property Name="StockOnHand" Type="Int32" />
+          <NavigationProperty Name="InvoiceDetails" Relationship="Self.FK_StockMaster1" FromRole="StockMaster" ToRole="InvoiceDetails" />
+          <NavigationProperty Name="Stock_Transaction" Relationship="Self.FK_StockMaster" FromRole="StockMaster" ToRole="Stock_Transaction" />
+        </EntityType>
+        <Association Name="FK_DebtorsMaster">
+          <End Role="DebtorsMaster" Type="Self.DebtorsMaster" Multiplicity="1" />
+          <End Role="Debtors_Transaction" Type="Self.Debtors_Transaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DebtorsMaster">
+              <PropertyRef Name="AccountCode" />
+            </Principal>
+            <Dependent Role="Debtors_Transaction">
+              <PropertyRef Name="AccountCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DebtorsMaster1">
+          <End Role="DebtorsMaster" Type="Self.DebtorsMaster" Multiplicity="1" />
+          <End Role="InvoiceHeader" Type="Self.InvoiceHeader" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DebtorsMaster">
+              <PropertyRef Name="AccountCode" />
+            </Principal>
+            <Dependent Role="InvoiceHeader">
+              <PropertyRef Name="AccountCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StockMaster1">
+          <End Role="StockMaster" Type="Self.StockMaster" Multiplicity="1" />
+          <End Role="InvoiceDetails" Type="Self.InvoiceDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StockMaster">
+              <PropertyRef Name="StockCode" />
+            </Principal>
+            <Dependent Role="InvoiceDetails">
+              <PropertyRef Name="StockCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StockMaster">
+          <End Role="StockMaster" Type="Self.StockMaster" Multiplicity="1" />
+          <End Role="Stock_Transaction" Type="Self.Stock_Transaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StockMaster">
+              <PropertyRef Name="StockCode" />
+            </Principal>
+            <Dependent Role="Stock_Transaction">
+              <PropertyRef Name="StockCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ERP_SolutionDbEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Debtors_Transaction" EntityType="Self.Debtors_Transaction" />
+          <EntitySet Name="DebtorsMasters" EntityType="Self.DebtorsMaster" />
+          <EntitySet Name="InvoiceDetails" EntityType="Self.InvoiceDetail" />
+          <EntitySet Name="InvoiceHeaders" EntityType="Self.InvoiceHeader" />
+          <EntitySet Name="Stock_Transaction" EntityType="Self.Stock_Transaction" />
+          <EntitySet Name="StockMasters" EntityType="Self.StockMaster" />
+          <AssociationSet Name="FK_DebtorsMaster" Association="Self.FK_DebtorsMaster">
+            <End Role="DebtorsMaster" EntitySet="DebtorsMasters" />
+            <End Role="Debtors_Transaction" EntitySet="Debtors_Transaction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DebtorsMaster1" Association="Self.FK_DebtorsMaster1">
+            <End Role="DebtorsMaster" EntitySet="DebtorsMasters" />
+            <End Role="InvoiceHeader" EntitySet="InvoiceHeaders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StockMaster1" Association="Self.FK_StockMaster1">
+            <End Role="StockMaster" EntitySet="StockMasters" />
+            <End Role="InvoiceDetails" EntitySet="InvoiceDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StockMaster" Association="Self.FK_StockMaster">
+            <End Role="StockMaster" EntitySet="StockMasters" />
+            <End Role="Stock_Transaction" EntitySet="Stock_Transaction" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ERP_SolutionDBModelStoreContainer" CdmEntityContainer="ERP_SolutionDbEntities">
+          <EntitySetMapping Name="Debtors_Transaction">
+            <EntityTypeMapping TypeName="ERP_SolutionDBModel.Debtors_Transaction">
+              <MappingFragment StoreEntitySet="Debtors_Transaction">
+                <ScalarProperty Name="Debtors_Transaction_Id" ColumnName="Debtors_Transaction_Id" />
+                <ScalarProperty Name="AccountCode" ColumnName="AccountCode" />
+                <ScalarProperty Name="TransactionDate" ColumnName="TransactionDate" />
+                <ScalarProperty Name="TransactionType" ColumnName="TransactionType" />
+                <ScalarProperty Name="DocumentNo" ColumnName="DocumentNo" />
+                <ScalarProperty Name="Gross_Transaction_Value" ColumnName="Gross_Transaction_Value" />
+                <ScalarProperty Name="Vat_Value" ColumnName="Vat_Value" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DebtorsMasters">
+            <EntityTypeMapping TypeName="ERP_SolutionDBModel.DebtorsMaster">
+              <MappingFragment StoreEntitySet="DebtorsMaster">
+                <ScalarProperty Name="AccountCode" ColumnName="AccountCode" />
+                <ScalarProperty Name="Address1" ColumnName="Address1" />
+                <ScalarProperty Name="Address2" ColumnName="Address2" />
+                <ScalarProperty Name="Balance" ColumnName="Balance" />
+                <ScalarProperty Name="SaleYearToDate" ColumnName="SaleYearToDate" />
+                <ScalarProperty Name="CostYearToDate" ColumnName="CostYearToDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="InvoiceDetails">
+            <EntityTypeMapping TypeName="ERP_SolutionDBModel.InvoiceDetail">
+              <MappingFragment StoreEntitySet="InvoiceDetails">
+                <ScalarProperty Name="InvoiceNo" ColumnName="InvoiceNo" />
+                <ScalarProperty Name="ItemNo" ColumnName="ItemNo" />
+                <ScalarProperty Name="StockCode" ColumnName="StockCode" />
+                <ScalarProperty Name="QtySold" ColumnName="QtySold" />
+                <ScalarProperty Name="UnitCost" ColumnName="UnitCost" />
+                <ScalarProperty Name="UnitSell" ColumnName="UnitSell" />
+                <ScalarProperty Name="Disc" ColumnName="Disc" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="InvoiceDetailsId" ColumnName="InvoiceDetailsId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="InvoiceHeaders">
+            <EntityTypeMapping TypeName="ERP_SolutionDBModel.InvoiceHeader">
+              <MappingFragment StoreEntitySet="InvoiceHeader">
+                <ScalarProperty Name="InvoiceNo" ColumnName="InvoiceNo" />
+                <ScalarProperty Name="AccountCode" ColumnName="AccountCode" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="TotalSellAmountExlVate" ColumnName="TotalSellAmountExlVate" />
+                <ScalarProperty Name="Vat" ColumnName="Vat" />
+                <ScalarProperty Name="TotalCost" ColumnName="TotalCost" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Stock_Transaction">
+            <EntityTypeMapping TypeName="ERP_SolutionDBModel.Stock_Transaction">
+              <MappingFragment StoreEntitySet="Stock_Transaction">
+                <ScalarProperty Name="Stock_Transaction_Id" ColumnName="Stock_Transaction_Id" />
+                <ScalarProperty Name="StockCode" ColumnName="StockCode" />
+                <ScalarProperty Name="StockDate" ColumnName="StockDate" />
+                <ScalarProperty Name="TransactionType" ColumnName="TransactionType" />
+                <ScalarProperty Name="DocumentNo" ColumnName="DocumentNo" />
+                <ScalarProperty Name="Qty" ColumnName="Qty" />
+                <ScalarProperty Name="UnitCost" ColumnName="UnitCost" />
+                <ScalarProperty Name="UnitSell" ColumnName="UnitSell" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StockMasters">
+            <EntityTypeMapping TypeName="ERP_SolutionDBModel.StockMaster">
+              <MappingFragment StoreEntitySet="StockMaster">
+                <ScalarProperty Name="StockCode" ColumnName="StockCode" />
+                <ScalarProperty Name="StockDescription" ColumnName="StockDescription" />
+                <ScalarProperty Name="Cost" ColumnName="Cost" />
+                <ScalarProperty Name="Selling_Price" ColumnName="Selling_Price" />
+                <ScalarProperty Name="TotalPurchase_excl_Vat" ColumnName="TotalPurchase_excl_Vat" />
+                <ScalarProperty Name="TotalSales_excl_Vat" ColumnName="TotalSales_excl_Vat" />
+                <ScalarProperty Name="QTY_Purchased" ColumnName="QTY_Purchased" />
+                <ScalarProperty Name="QTY_Sold" ColumnName="QTY_Sold" />
+                <ScalarProperty Name="StockOnHand" ColumnName="StockOnHand" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
