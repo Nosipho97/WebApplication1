@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using WebApplication1;
 
 namespace Stock.Models
 {
@@ -16,6 +17,7 @@ namespace Stock.Models
         public int QtyPurchase { get; set; }
         public int QtySold { get; set; }
         public int StockOnHand { get; set; }
+        public List<StockMaster> StockList { get; set; }
     }
     public class StockTransactionModel
     {

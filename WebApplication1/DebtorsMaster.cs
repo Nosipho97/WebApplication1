@@ -26,9 +26,9 @@ namespace WebApplication1
         public string AccountCode { get; set; }
         public string Address1 { get; set; }
         public string Address2 { get; set; }
-        public Nullable<decimal> Balance { get; set; }
-        public Nullable<decimal> SaleYearToDate { get; set; }
-        public Nullable<decimal> CostYearToDate { get; set; }
+        public decimal? Balance { get; set; }
+        public decimal? SaleYearToDate { get; set; }
+        public decimal? CostYearToDate { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Debtors_Transaction> Debtors_Transaction { get; set; }

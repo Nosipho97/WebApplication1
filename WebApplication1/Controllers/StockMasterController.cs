@@ -11,15 +11,20 @@ namespace WebApplication1.Controllers
     public class StockMasterController : Controller
     {
         // GET: StockMaster
-        public ActionResult Index()
+        public ActionResult Index(string search)
         {
-            return View();
+            using (var dbContext = new ERP_SolutionDbEntities())
+            {
+                List<StockMaster> List = new List<StockMaster>();
+                List = dbContext.StockMasters.ToList();
+                StockModel stocksMasterModel = new StockModel()
+                {
+                    StockList = List.ToList()
+                };
+                return View(stocksMasterModel);
+            }
         }
-        public ActionResult AddStock()
-        {
-            return View();
-        }
-
+       
         // POST: StockMaster/Create
         [HttpPost]
         public ActionResult AddStock(StockModel model)
@@ -62,7 +67,7 @@ namespace WebApplication1.Controllers
             using (var dbContext = new ERP_SolutionDbEntities())
             {
                 StockMaster stock = dbContext.StockMasters.Where(x => x.StockCode == StockCode).SingleOrDefault();
-
+                List<StockMaster> List = new List<StockMaster>();
                 StockModel model = new StockModel
                 {
                     StockCode = stock.StockCode,
@@ -73,21 +78,14 @@ namespace WebApplication1.Controllers
                     TotalSale_ExlVat = (decimal)stock.TotalSales_excl_Vat.Value,
                     QtyPurchase = stock.QTY_Purchased.Value,
                     QtySold=(int)stock.QTY_Sold.Value,
-                    StockOnHand = (int)stock.StockOnHand.Value
+                    StockOnHand = (int)(stock.QTY_Purchased - stock.QTY_Sold),
+                    StockList = List.ToList()
                 };
 
                 return View("Index", model);
             }
         }
-        // GET: DebtorsMaster/Edit/5
-        public ActionResult EditStock(string StockCode)
-        {
-            //To fill the form with data from database with the particular code
-            return View();
-
-
-        }
-
+       
         // POST: DebtorsMaster/Edit/5
         [HttpPost]
         public ActionResult EditStock(StockModel model)

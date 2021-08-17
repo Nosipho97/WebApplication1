@@ -1,5 +1,4 @@
 ﻿@model Debtors.Models.DebtorsMasterModel
-
 @{
     ViewBag.Title = "Debtors";
 }
@@ -9,99 +8,181 @@
         text-align: center;
     }
 
-    input[type=submit] {
-        background-color: #ff6666;
-        color: white;
-        padding: 12px 20px;
-        border: none;
-        width: 10%;
-        border-radius: 4px;
-        cursor: pointer;
+    #myInput {
+        background-image: url('/css/searchicon.png');
+        background-position: 10px 10px;
+        background-repeat: no-repeat;
+        width: 100%;
+        font-size: 16px;
+        padding: 12px 20px 12px 40px;
+        border: 1px solid #ddd;
+        margin-bottom: 12px;
     }
 
-    body, th {
-        text-align: center;
-    }
+
+        #myTable th, #myTable td {
+            text-align: left;
+            padding: 12px;
+        }
+
+        #myTable tr {
+            border-bottom: 1px solid #ddd;
+        }
+
+            #myTable tr.header, #myTable tr:hover {
+                background-color: #f1f1f1;
+            }
 </style>
 <h2>Debtors</h2>
-
-
-
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+<div class="form-inline">
+    @Html.EditorFor(model => model.AccountCode, new { htmlAttributes = new { @class = "form-control" } })
+    <input type="submit" value="Search" formaction=@Url.Action("Search") formmethod="post" />
+</div>
+<p><strong style="color:red">@TempData["Message"]</strong></p>
+}
+<hr />
 @using (Html.BeginForm("Index", "DebtorsMaster", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
-<div>
-    Code: @Html.TextBox("AccountCode")<br />
-    <br />
-    <input type="submit" value="Search" formaction=@Url.Action("Search") formmethod="post" />
-</div>
-    <div class="form-horizontal">
 
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+<div class="form-inline">
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+   
         <div class="form-group">
-            @Html.LabelFor(model => model.AccountCode, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            @Html.LabelFor(model => model.AccountCode, htmlAttributes: new { @class = "control-label " })
+            <div>
                 @Html.EditorFor(model => model.AccountCode, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.AccountCode, "", new { @class = "text-danger" })
             </div>
         </div>
 
-
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Address1, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Address1, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Address1, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Address2, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Address2, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Address2, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Balance, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Balance, new { htmlAttributes = new { @class = "form-control"} })
-                @Html.ValidationMessageFor(model => model.Balance, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.SalesToYearD, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.SalesToYearD, new { htmlAttributes = new { @class = "form-control"  } })
-                @Html.ValidationMessageFor(model => model.SalesToYearD, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.CostToYearD, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.CostToYearD, new { htmlAttributes = new { @class = "form-control"} })
-                @Html.ValidationMessageFor(model => model.CostToYearD, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" formaction=@Url.Action("AddDebtor") formmethod="post" />
-                <input type="submit" value="Update" class="btn btn-default" formaction=@Url.Action("EditDebtor") formmethod="post" />
-            </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Address1, htmlAttributes: new { @class = "control-label " })
+        <div>
+            @Html.EditorFor(model => model.Address1, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Address1, "", new { @class = "text-danger" })
         </div>
     </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Address2, htmlAttributes: new { @class = "control-label " })
+        <div>
+            @Html.EditorFor(model => model.Address2, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Address2, "", new { @class = "text-danger" })
+        </div>
+    </div>
+</div>
+ <div class="form-inline">
+    <div class="form-group">
+        @Html.LabelFor(model => model.Balance, htmlAttributes: new { @class = "control-label " })
+        <div>
+            @Html.EditorFor(model => model.Balance, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Balance, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.SalesToYearD, htmlAttributes: new { @class = "control-label " })
+        <div>
+            @Html.EditorFor(model => model.SalesToYearD, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.SalesToYearD, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.CostToYearD, htmlAttributes: new { @class = "control-label " })
+        <div>
+            @Html.EditorFor(model => model.CostToYearD, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.CostToYearD, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <br /><br />
+    <div class="form-inline">
+            <input type="submit" value="Create" class="btn btn-default" formaction=@Url.Action("AddDebtor") formmethod="post" />
+            <input type="submit" value="Update" class="btn btn-default" formaction=@Url.Action("EditDebtor") formmethod="post" />
+    </div>
+</div>
+        
+    
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Filter by Code" title="Type in a Code" class="col-md-offset-9">
+<table id="myTable">
+    <tr class="header">
+        <th>
+            AccountCode
+        </th>
+        <th>
+            Balances
+        </th>
+        <th>
+            Sale To Year Date
+        </th>
+        <th>
+            Cost To Year Date
+        </th>
+        <th> Action</th>
+    </tr>
+
+    @foreach (var item in Model.DebtorsList)
+    {
+     <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.AccountCode)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Balance)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SaleYearToDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CostYearToDate)
+            </td>
+          
+        </tr>
+
+    }
+</table>
+
+
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        function myFunction() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("myTable");
+            tr = table.getElementsByTagName("tr");
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[0];
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+
+        $(function () {
+            $('#myModal').on('show.bs.modal', function (e) {
+                var button = $(e.relatedTarget) // Button that triggered the modal
+                var ST = button.data('status') // Extract info from data-* attributes
+                $(e.currentTarget).find('.modal-title').text('Change Status for Service Tag :' + ST);
+                $(e.currentTarget).find("input[name='ST']").val(ST);
+            });
+        });
+    </script>
 }

@@ -130,6 +130,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\DebtorsMasterController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\InvoiceController.cs" />
     <Compile Include="Controllers\StockMasterController.cs" />
     <Compile Include="DebtorsMaster.cs">
       <DependentUpon>ERP_Solution.tt</DependentUpon>
@@ -161,6 +162,7 @@
     <Compile Include="InvoiceHeader.cs">
       <DependentUpon>ERP_Solution.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\InvoiceModel.cs" />
     <Compile Include="Models\Models.cs" />
     <Compile Include="Models\StockMasterModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -226,6 +228,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Debtors\Index.cshtml" />
     <Content Include="Views\StockMaster\Index.cshtml" />
+    <Content Include="Views\Invoice\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
